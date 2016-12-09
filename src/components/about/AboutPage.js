@@ -11,4 +11,4 @@ class AboutPage extends Component{
 	}
 }
 
-export { AboutPage as AboutPage}
+export { AboutPage as AboutPage};
