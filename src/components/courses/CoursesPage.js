@@ -1,6 +1,7 @@
 import React ,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import * as courseActions from '../../actions/courseActions';
+import {bindActionCreators} from 'redux';
 class CoursesPage extends Component{
 	constructor(props, context){
 		super(props,context);
@@ -19,7 +20,7 @@ class CoursesPage extends Component{
 	onClickSave(event){
 		//alert(event.target.previousElementSibling.value);
 		event.target.previousElementSibling.value = "";
-		this.props.createCourse(this.state.course); // this is the ugly way of dispatching the action if we are not using mapDispatchToProps
+		this.props.actions.createCourse(this.state.course); // this is the ugly way of dispatching the action if we are not using mapDispatchToProps
 		//alert(`Saving ${this.state.course.title} & Clicked at ${event.target.value} button` );
 	}
 	courseRow(course,index){
@@ -47,7 +48,7 @@ class CoursesPage extends Component{
 CoursesPage.propTypes = {
 	//dispatch : PropTypes.func.isRequired,
 	courses : PropTypes.array.isRequired,
-	createCourse : PropTypes.func.isRequired 
+	actions : PropTypes.object.isRequired 
 };
 function mapStateToProps(state,ownProps){
 	debugger;
@@ -57,7 +58,7 @@ function mapStateToProps(state,ownProps){
 }
 function mapDispatchToProps(dispatch){
 	return {
-		createCourse: (course) => dispatch(courseActions.createCourse(course))
+		actions : bindActionCreators(courseActions,dispatch)
 	};
 }
 export default connect(mapStateToProps,mapDispatchToProps)(CoursesPage) ;
