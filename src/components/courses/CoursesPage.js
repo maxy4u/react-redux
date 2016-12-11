@@ -17,7 +17,9 @@ class CoursesPage extends Component{
 		this.setState({course:course});
 	}
 	onClickSave(event){
-		this.props.dispatch(courseActions.createCourse(this.state.course)); // this is the ugly way of dispatching the action if we are not using mapDispatchToProps
+		//alert(event.target.previousElementSibling.value);
+		event.target.previousElementSibling.value = "";
+		this.props.createCourse(this.state.course); // this is the ugly way of dispatching the action if we are not using mapDispatchToProps
 		//alert(`Saving ${this.state.course.title} & Clicked at ${event.target.value} button` );
 	}
 	courseRow(course,index){
@@ -25,6 +27,7 @@ class CoursesPage extends Component{
 
 	}
 	render(){
+		debugger;
 		return(
 			<div>
 				<h1>Courses</h1>
@@ -32,8 +35,7 @@ class CoursesPage extends Component{
 				<h2>Add Course</h2>
 				<input 
 					type="text"
-					onChange={this.onTitleChange}
-					value={this.state.course.title} />
+					onChange={this.onTitleChange}/>
 				<input 
 					type="submit"
 					value="Save"
@@ -43,12 +45,19 @@ class CoursesPage extends Component{
 	}
 }
 CoursesPage.propTypes = {
-	dispatch : PropTypes.func.isRequired,
-	courses : PropTypes.array.isRequired 
+	//dispatch : PropTypes.func.isRequired,
+	courses : PropTypes.array.isRequired,
+	createCourse : PropTypes.func.isRequired 
 };
 function mapStateToProps(state,ownProps){
+	debugger;
 	return {
 		courses:state.courses
 	};
 }
-export default connect(mapStateToProps)(CoursesPage) ;
+function mapDispatchToProps(dispatch){
+	return {
+		createCourse: (course) => dispatch(courseActions.createCourse(course))
+	};
+}
+export default connect(mapStateToProps,mapDispatchToProps)(CoursesPage) ;
